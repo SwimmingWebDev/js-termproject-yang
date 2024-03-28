@@ -2,8 +2,7 @@ let database = require("../database");
 
 let remindersController = {
   list: (req, res) => {
-    const user = req.user;
-    res.render("reminder/index", { reminders: req.user.reminders });
+    res.render("reminder/index", { reminders: database.cindy.reminders });
   },
 
   new: (req, res) => {

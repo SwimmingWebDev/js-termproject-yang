@@ -6,7 +6,6 @@ let Database = {
         title: "Grocery shopping",
         description: "Buy milk and bread from safeway",
         completed: false,
-        reminders: [],
       },
     ],
   },
