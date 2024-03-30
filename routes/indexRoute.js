@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ensureAuthenticated, isAdmin } = require("../middleware/checkAuth");
+const { ensureAuthenticated } = require("../middleware/checkAuth");
 const reminderController = require("../controller/reminder_controller");
 
 router.get("/", (req, res) => {
@@ -12,6 +12,7 @@ router.get("/reminder/new", ensureAuthenticated, reminderController.new);
 router.get("/reminder/:id", ensureAuthenticated, reminderController.listOne);
 router.get("/reminder/:id/edit", ensureAuthenticated, reminderController.edit);
 router.post("/reminder/", ensureAuthenticated, reminderController.create);
+
 // ⭐ Implement these two routes below!
 router.post(
   "/reminder/update/:id",
