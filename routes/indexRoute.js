@@ -10,8 +10,8 @@ router.get("/", (req, res) => {
 router.get("/reminders", ensureAuthenticated, reminderController.list);
 router.get("/reminder/new", ensureAuthenticated, reminderController.new);
 router.get("/reminder/:id", ensureAuthenticated, reminderController.listOne);
-router.get("/reminder/:id/edit", ensureAuthenticated, reminderController.edit);
 router.post("/reminder/", ensureAuthenticated, reminderController.create);
+router.get("/reminder/:id/edit", ensureAuthenticated, reminderController.edit);
 
 // ⭐ Implement these two routes below!
 router.post(

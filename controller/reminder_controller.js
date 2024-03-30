@@ -1,60 +1,71 @@
 let database = require("../database");
 
 let remindersController = {
+  // get
   list: (req, res) => {
     res.render("reminder/index", {
-      user: req.user,
       reminders: req.user.reminders,
     });
   },
 
+  // get
   new: (req, res) => {
     res.render("reminder/create");
   },
 
+  // get
   listOne: (req, res) => {
     let reminderToFind = req.params.id;
-    let searchResult = database.cindy.reminders.find(function (reminder) {
+    let searchResult = req.user.reminders.find(function (reminder) {
       return reminder.id == reminderToFind;
     });
     if (searchResult != undefined) {
       res.render("reminder/single-reminder", { reminderItem: searchResult });
     } else {
-      res.render("reminder/index", { reminders: req.body.reminders });
+      res.render("reminder/index", { reminders: req.user.reminders });
     }
   },
 
+  // post
   create: (req, res) => {
     let reminder = {
-      id: req.body.id + 1,
+      id: req.user.reminders.length + 1,
       title: req.body.title,
       description: req.body.description,
       completed: false,
     };
-    req.body.reminders.push(reminder);
-    res.redirect("/reminders");
+    req.user.reminders.push(reminder);
+    res.redirect("/reminder/index");
   },
 
+  // get
   edit: (req, res) => {
     let reminderToFind = req.params.id;
-    let searchResult = req.body.reminders.find(function (reminder) {
+    let searchResult = req.user.reminders.find(function (reminder) {
       return reminder.id == reminderToFind;
     });
     res.render("reminder/edit", { reminderItem: searchResult });
   },
 
+  // post
   update: (req, res) => {
-    let reminderToUpdate = req.params.id;
-    let reminders = req.body.reminders;
-    let searchResult = req.body.reminders.find(function (reminder) {
-      return reminder.id == reminderToFind;
-    });
-    if (searchResult) {
-    }
+    let reminderToUpdate = req.params.id - 1;
+    req.user.reminders[reminderToUpdate].title = req.body.title;
+    req.user.reminders[reminderToUpdate].description = req.body.description;
+    req.user.reminders[reminderToUpdate].completed =
+      req.body.completed === "true";
+    res.redirect("/reminder/index");
   },
 
+  // post
   delete: (req, res) => {
-    // implementation here 👈
+    let reminderToDelete = req.params.id;
+    let searchResult = req.user.reminders.find(function (reminder) {
+      return reminder.id == reminderToDelete;
+    });
+    console.log(searchResult.id - 1);
+    req.user.reminders.splice(searchResult.id - 1, 1);
+    res.redirect("/reminder/index");
   },
 };
 
